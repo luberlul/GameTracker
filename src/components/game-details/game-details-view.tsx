@@ -13,6 +13,7 @@ import {
   ArrowLeft,
   Pencil,
   Trash2,
+  RefreshCw,
 } from "lucide-react";
 import type { Game } from "@/lib/data/games";
 import { Card } from "@/components/ui/card";
@@ -26,7 +27,8 @@ import { HltbComparisonChart } from "@/components/hltb/hltb-comparison-chart";
 import { HltbSpeedBadge } from "@/components/hltb/hltb-speed-badge";
 import { STATUS_COLORS, STATUS_LABELS } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
-import { useDeleteGame } from "@/hooks/use-games";
+import { useDeleteGame, useUpdateGame } from "@/hooks/use-games";
+import { searchHltb } from "@/lib/hltb/client";
 
 interface GameDetailsViewProps {
   game: Game;
@@ -35,9 +37,33 @@ interface GameDetailsViewProps {
 export function GameDetailsView({ game }: GameDetailsViewProps) {
   const router = useRouter();
   const deleteGame = useDeleteGame();
+  const updateGame = useUpdateGame();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [hltbRefreshing, setHltbRefreshing] = useState(false);
 
   const userHours = game.hoursPlayed + (game.minutesPlayed ?? 0) / 60;
+
+  async function handleRefreshHltb() {
+    setHltbRefreshing(true);
+    try {
+      const data = await searchHltb(game.title);
+      if (data) {
+        await updateGame.mutateAsync({
+          id: game.id,
+          input: {
+            hltbId: data.id,
+            hltbName: data.name,
+            hltbImageUrl: data.imageUrl,
+            hltbMainStory: data.mainStory,
+            hltbMainExtra: data.mainExtra,
+            hltbCompletionist: data.completionist,
+          },
+        });
+      }
+    } finally {
+      setHltbRefreshing(false);
+    }
+  }
 
   const radarData = [
     { category: "História", value: game.storyRating },
@@ -266,12 +292,23 @@ export function GameDetailsView({ game }: GameDetailsViewProps) {
             />
           </ChartCard>
 
-          {game.hltb && (
+          {game.hltb ? (
             <>
               <Card glass>
-                <h3 className="font-bold mb-4 text-lg">
-                  Tempos de Conclusão · HowLongToBeat
-                </h3>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-bold text-lg">
+                    Tempos de Conclusão · HowLongToBeat
+                  </h3>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleRefreshHltb}
+                    disabled={hltbRefreshing}
+                  >
+                    <RefreshCw className={`w-4 h-4 mr-1 ${hltbRefreshing ? "animate-spin" : ""}`} />
+                    Atualizar
+                  </Button>
+                </div>
                 <HltbTimesCard
                   hltb={game.hltb}
                   userHours={userHours > 0 ? userHours : undefined}
@@ -293,6 +330,26 @@ export function GameDetailsView({ game }: GameDetailsViewProps) {
                 />
               </ChartCard>
             </>
+          ) : (
+            <Card glass>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-bold text-lg">HowLongToBeat</h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Dados de duração não disponíveis para este jogo.
+                  </p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleRefreshHltb}
+                  disabled={hltbRefreshing}
+                >
+                  <RefreshCw className={`w-4 h-4 mr-2 ${hltbRefreshing ? "animate-spin" : ""}`} />
+                  {hltbRefreshing ? "Buscando..." : "Buscar HLTB"}
+                </Button>
+              </div>
+            </Card>
           )}
         </div>
       </div>
