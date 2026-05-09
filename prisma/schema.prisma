@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Game {
+  id               String   @id @default(cuid())
+  title            String
+  coverColor       String   @default("#8b5cf6")
+  coverImage       String?
+  bannerImage      String?
+  status           String   @default("backlog")
+  platform         String   @default("")
+  overallRating    Float    @default(0)
+  storyRating      Float    @default(0)
+  gameplayRating   Float    @default(0)
+  soundtrackRating Float    @default(0)
+  graphicsRating   Float    @default(0)
+  difficulty       Float    @default(0)
+  hoursPlayed      Float    @default(0)
+  minutesPlayed    Float    @default(0)
+  startDate        String   @default("")
+  endDate          String?
+  releaseYear      String?
+  genre            String   @default("[]")
+  notes            String   @default("")
+  achievements     String   @default("")
+  screenshots      String   @default("[]")
+  tier             String?
+  igdbId           Int?
+  hltbId           String?
+  hltbName         String?
+  hltbImageUrl     String?
+  hltbMainStory    Float?
+  hltbMainExtra    Float?
+  hltbCompletionist Float?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
