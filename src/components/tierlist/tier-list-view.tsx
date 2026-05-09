@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { useDrag, useDrop, DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { motion } from "framer-motion";
@@ -97,24 +97,14 @@ export function TierListView() {
   const { data: rawGames = [] } = useGames();
   const allGames = useMemo(() => rawGames.map(toGame), [rawGames]);
 
-  const gamesWithTier = allGames.filter(
-    (g) => g.status === "completed" || g.status === "100%",
+  const gamesWithTier = useMemo(
+    () => allGames.filter((g) => g.status === "completed" || g.status === "100%"),
+    [allGames],
   );
 
-  const [tierAssignments, setTierAssignments] = useState<
-    Record<string, string>
-  >(() =>
-    gamesWithTier.reduce(
-      (acc, game) => {
-        acc[game.id] = game.tier || "unranked";
-        return acc;
-      },
-      {} as Record<string, string>,
-    ),
-  );
+  const [tierAssignments, setTierAssignments] = useState<Record<string, string>>({});
 
-  // Update assignments when new games arrive
-  useMemo(() => {
+  useEffect(() => {
     setTierAssignments((prev) => {
       const next = { ...prev };
       for (const game of gamesWithTier) {
