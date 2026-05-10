@@ -21,11 +21,12 @@ interface PieChartProps {
 }
 
 export function PieChart({ data, height = 300 }: PieChartProps) {
+  const filtered = data.filter((d) => d.value > 0);
   return (
     <ResponsiveContainer width="100%" height={height}>
       <RPieChart>
         <Pie
-          data={data}
+          data={filtered}
           cx="50%"
           cy="50%"
           labelLine={false}
@@ -35,7 +36,7 @@ export function PieChart({ data, height = 300 }: PieChartProps) {
           outerRadius={100}
           dataKey="value"
         >
-          {data.map((entry, index) => (
+          {filtered.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.color} />
           ))}
         </Pie>

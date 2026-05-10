@@ -34,8 +34,15 @@ export function LineChart<T>({
     <ResponsiveContainer width="100%" height={height}>
       <RLineChart data={data}>
         <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} />
-        <XAxis dataKey={categoryKey} stroke={CHART_AXIS_STROKE} />
-        <YAxis stroke={CHART_AXIS_STROKE} />
+        <XAxis
+          dataKey={categoryKey}
+          stroke={CHART_AXIS_STROKE}
+          tick={{ fill: CHART_AXIS_STROKE, fontSize: 12 }}
+        />
+        <YAxis
+          stroke={CHART_AXIS_STROKE}
+          tick={{ fill: CHART_AXIS_STROKE, fontSize: 12 }}
+        />
         <Tooltip contentStyle={CHART_TOOLTIP_STYLE} />
         <Line
           type="monotone"

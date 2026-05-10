@@ -33,23 +33,26 @@ export function BarChart<T>({
   height = 300,
 }: BarChartProps<T>) {
   const isVertical = layout === "vertical";
+  const tick = { fill: CHART_AXIS_STROKE, fontSize: 12 };
   return (
     <ResponsiveContainer width="100%" height={height}>
       <RBarChart data={data} layout={layout}>
         <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} />
         {isVertical ? (
           <>
-            <XAxis type="number" stroke={CHART_AXIS_STROKE} />
+            <XAxis type="number" stroke={CHART_AXIS_STROKE} tick={tick} allowDecimals={false} />
             <YAxis
               type="category"
               dataKey={categoryKey}
               stroke={CHART_AXIS_STROKE}
+              tick={tick}
+              width={100}
             />
           </>
         ) : (
           <>
-            <XAxis dataKey={categoryKey} stroke={CHART_AXIS_STROKE} />
-            <YAxis stroke={CHART_AXIS_STROKE} />
+            <XAxis dataKey={categoryKey} stroke={CHART_AXIS_STROKE} tick={tick} />
+            <YAxis stroke={CHART_AXIS_STROKE} tick={tick} allowDecimals={false} />
           </>
         )}
         <Tooltip contentStyle={CHART_TOOLTIP_STYLE} />

@@ -148,14 +148,14 @@ export function HltbProfileSection({ games }: HltbProfileSectionProps) {
             <XAxis
               type="number"
               stroke={CHART_AXIS_STROKE}
-              tick={{ fontSize: 11 }}
+              tick={{ fill: CHART_AXIS_STROKE, fontSize: 11 }}
               tickFormatter={(v) => `${v}h`}
             />
             <YAxis
               type="category"
               dataKey="name"
               stroke={CHART_AXIS_STROKE}
-              tick={{ fontSize: 12 }}
+              tick={{ fill: CHART_AXIS_STROKE, fontSize: 12 }}
               width={110}
             />
             <Tooltip content={<CustomTooltip />} />

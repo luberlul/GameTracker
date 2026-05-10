@@ -41,8 +41,15 @@ export function AreaChart<T>({
           </linearGradient>
         </defs>
         <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} />
-        <XAxis dataKey={categoryKey} stroke={CHART_AXIS_STROKE} />
-        <YAxis stroke={CHART_AXIS_STROKE} />
+        <XAxis
+          dataKey={categoryKey}
+          stroke={CHART_AXIS_STROKE}
+          tick={{ fill: CHART_AXIS_STROKE, fontSize: 12 }}
+        />
+        <YAxis
+          stroke={CHART_AXIS_STROKE}
+          tick={{ fill: CHART_AXIS_STROKE, fontSize: 12 }}
+        />
         <Tooltip contentStyle={CHART_TOOLTIP_STYLE} />
         <Area
           type="monotone"

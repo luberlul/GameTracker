@@ -85,11 +85,11 @@ export function HltbComparisonChart({
         <XAxis
           dataKey="name"
           stroke={CHART_AXIS_STROKE}
-          tick={{ fontSize: 12 }}
+          tick={{ fill: CHART_AXIS_STROKE, fontSize: 12 }}
         />
         <YAxis
           stroke={CHART_AXIS_STROKE}
-          tick={{ fontSize: 11 }}
+          tick={{ fill: CHART_AXIS_STROKE, fontSize: 11 }}
           tickFormatter={(v) => `${v}h`}
         />
         <Tooltip content={<CustomTooltip />} />

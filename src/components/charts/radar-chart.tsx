@@ -36,11 +36,16 @@ export function RadarChart<T>({
     <ResponsiveContainer width="100%" height={height}>
       <RRadarChart data={data}>
         <PolarGrid stroke={CHART_GRID_STROKE} />
-        <PolarAngleAxis dataKey={categoryKey} stroke={CHART_AXIS_STROKE} />
+        <PolarAngleAxis
+          dataKey={categoryKey}
+          stroke={CHART_AXIS_STROKE}
+          tick={{ fill: CHART_AXIS_STROKE, fontSize: 12 }}
+        />
         <PolarRadiusAxis
           stroke={CHART_AXIS_STROKE}
           angle={90}
           domain={domain}
+          tick={{ fill: CHART_AXIS_STROKE, fontSize: 11 }}
         />
         <Radar
           name={name}
