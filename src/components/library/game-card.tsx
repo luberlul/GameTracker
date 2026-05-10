@@ -26,6 +26,7 @@ export function GameCard({ game, index = 0 }: GameCardProps) {
           <GameCover
             title={game.title}
             coverColor={game.coverColor}
+            coverImage={game.coverImage}
             className="aspect-[3/4] mb-3"
           >
             <div className="absolute top-3 left-3">
