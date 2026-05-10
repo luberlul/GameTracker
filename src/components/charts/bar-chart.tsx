@@ -36,30 +36,29 @@ export function BarChart<T>({
   const tick = { fill: CHART_AXIS_STROKE, fontSize: 12 };
   return (
     <ResponsiveContainer width="100%" height={height}>
-      <RBarChart data={data} layout={layout}>
+      <RBarChart data={data} layout={layout} margin={{ top: 5, right: 16, bottom: 5, left: 5 }}>
         <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} />
-        {isVertical ? (
-          <>
-            <XAxis type="number" stroke={CHART_AXIS_STROKE} tick={tick} allowDecimals={false} />
-            <YAxis
-              type="category"
-              dataKey={categoryKey}
-              stroke={CHART_AXIS_STROKE}
-              tick={tick}
-              width={100}
-            />
-          </>
-        ) : (
-          <>
-            <XAxis dataKey={categoryKey} stroke={CHART_AXIS_STROKE} tick={tick} />
-            <YAxis stroke={CHART_AXIS_STROKE} tick={tick} allowDecimals={false} />
-          </>
-        )}
+        <XAxis
+          type={isVertical ? "number" : "category"}
+          dataKey={isVertical ? undefined : categoryKey}
+          stroke={CHART_AXIS_STROKE}
+          tick={tick}
+          allowDecimals={false}
+        />
+        <YAxis
+          type={isVertical ? "category" : "number"}
+          dataKey={isVertical ? categoryKey : undefined}
+          stroke={CHART_AXIS_STROKE}
+          tick={tick}
+          allowDecimals={false}
+          width={isVertical ? 100 : 40}
+        />
         <Tooltip contentStyle={CHART_TOOLTIP_STYLE} />
         <Bar
           dataKey={dataKey}
           fill={color}
           radius={isVertical ? [0, 8, 8, 0] : [8, 8, 0, 0]}
+          maxBarSize={60}
         />
       </RBarChart>
     </ResponsiveContainer>
