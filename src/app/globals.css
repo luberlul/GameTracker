@@ -147,6 +147,20 @@
   }
 }
 
+/* Recharts tick labels — force readable color on the dark theme.
+   Recharts' `tick={{ fill }}` prop is unreliable across versions, so target
+   the rendered SVG text directly. */
+.recharts-cartesian-axis-tick-value,
+.recharts-polar-angle-axis-tick-value,
+.recharts-polar-radius-axis-tick-value,
+.recharts-text {
+  fill: #a0a0b8;
+  font-size: 12px;
+}
+.recharts-legend-item-text {
+  color: #a0a0b8 !important;
+}
+
 /* When running inside Electron, reserve 36px at the top for the custom title bar
    and pull the fixed sidebar down so it doesn't slide under it. */
 body.is-electron {
